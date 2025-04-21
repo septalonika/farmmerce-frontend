@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "vue.volar",
+    "dbaeumer.vscode-eslint",
+    "aaron-bond.better-comments",
+    "bradlc.vscode-tailwindcss",
+    "ZixuanChen.vitest-explorer",
+    "esbenp.prettier-vscode",
+    "language-postcss",
+    "cpylua.language-postcss",
+    "vue.vscode-typescript-vue-plugin",
+    "moalamri.inline-fold"
+  ]
+}
