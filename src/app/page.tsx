@@ -1,11 +1,7 @@
 import Home from "@/components/organisms/home";
 
 const HomePage = () => {
-  return (
-    <div>
-      <Home />
-    </div>
-  );
+  return <div className="min-h-[82dvh]">test</div>;
 };
 
 export default HomePage;
