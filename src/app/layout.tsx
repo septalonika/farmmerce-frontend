@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Header from "@/components/organisms/header";
+import Footer from "@/components/organisms/footer";
+
 import "./globals.css";
 
 const inter = Inter({
@@ -97,12 +99,12 @@ export default function RootLayout({
         />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} bg-[#ffff] antialiased`}>
         <Header />
-        <div className="flex justify-center bg-fuchsia-500">
-          <div className="mx-[20dvw] flex bg-amber-500">{children}</div>
+        <div className="flex justify-center">
+          <div className="mx-[20dvw] flex">{children}</div>
         </div>
-        <footer className="flex h-[12dvh] bg-blue-500"></footer>
+        <Footer />
       </body>
     </html>
   );
