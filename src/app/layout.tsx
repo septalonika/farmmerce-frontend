@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Header from "@/components/organisms/layouts/header";
 import Footer from "@/components/organisms/layouts/footer";
+import { ThemeProvider } from "@mui/material/styles";
+import muiTheme from "@/theme/muiTheme";
 
 import "./globals.css";
 
@@ -99,13 +101,15 @@ export default function RootLayout({
         />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className={`${inter.className} bg-[#ffff] antialiased`}>
-        <Header />
-        <div className="flex justify-center">
-          <div className="mx-[20dvw] flex">{children}</div>
-        </div>
-        <Footer />
-      </body>
+      <ThemeProvider theme={muiTheme}>
+        <body className={`${inter.className} bg-[#ffff] antialiased`}>
+          <Header />
+          <div className="flex justify-center">
+            <div className="mx-[20dvw] flex">{children}</div>
+          </div>
+          <Footer />
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
