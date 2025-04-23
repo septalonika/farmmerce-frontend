@@ -8,12 +8,16 @@ const Home = () => {
   const admins = useStore($sampleStores);
   return (
     <div className="flex h-screen items-center justify-center">
-      <Link href="/about" className="text-2xl w-20 h-20">
+      <Link href="/about" className="text-2xl">
         <ul className="w-full">
           {admins.map((user) => (
             <li key={user.id}>
               <div className="flex w-full">
-                {user.id}: {user.name}: {user.email}
+                <article>
+                  <p>id:{user.id}</p>
+                  <p>Name:{user.name}</p>
+                  <p>Email: {user.email}</p>
+                </article>
               </div>
             </li>
           ))}
