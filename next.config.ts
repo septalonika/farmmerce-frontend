@@ -7,8 +7,9 @@ const nextConfig: NextConfig = {
       "register",
       "forgot-password",
       "reset-password",
-    ];
-    const pages = ["about", "contact", "privacy-policy", "terms-of-service"];
+    ]; // Auth Pages to be moved to /auth directory
+
+    const pages = ["about", "contact", "privacy-policy", "terms-of-service"]; // Pages in this array will be route to the /pages directory, this array just an example you can add more pages as needed
 
     const rewrites = [
       ...authPages.map((page) => {
@@ -25,7 +26,7 @@ const nextConfig: NextConfig = {
       }),
     ];
 
-    return rewrites;
+    return rewrites; // result of this code, for examples : Instead of writing /auth/login, you can just write /login and it will be redirected to /auth/login
   },
 };
 
