@@ -102,12 +102,10 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <ThemeProvider theme={muiTheme}>
-        <body className={`${inter.className} bg-[#ffff] antialiased`}>
-          <Header />
-          <div className="flex justify-center">
-            <div className="mx-[20dvw] flex">{children}</div>
-          </div>
-          <Footer />
+        <body
+          className={`${inter.className} scroll-smooth bg-[#ffff] antialiased`}
+        >
+          {children}
         </body>
       </ThemeProvider>
     </html>
