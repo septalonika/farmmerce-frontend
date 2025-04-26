@@ -50,7 +50,7 @@ const Header = () => {
   };
   return (
     <div className="absolute top-0 w-full">
-      <AppBar position="static" color="primary">
+      <AppBar position="static" sx={{ backgroundColor: "#1E2939" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters className="gap-2">
             <div className="flex items-center gap-2 duration-150 hover:scale-95">
