@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import iconFarmmerce from "../../../../public/farmmerce-iconic.svg";
@@ -7,8 +7,6 @@ import { useLogin } from "@/hooks/auth/useLogin";
 import InputField from "@/components/ui/InputField";
 import FormError from "@/components/ui/FormError";
 import CustomButton from "@/components/ui/CustomButton";
-import { setUser } from "@/app/stores/auth";
-import { useRouter } from "next/navigation";
 
 const getFormErrors = (
   touched: { email: boolean; password: boolean },
@@ -36,7 +34,7 @@ const LoginPage = () => {
       return;
     }
     try {
-      await login({ email, password }, true);
+      await login(true);
     } catch (err: unknown) {
       setFormError(
         err instanceof Error ? err.message : "An unexpected error occurred.",
@@ -44,7 +42,7 @@ const LoginPage = () => {
     }
   };
 
-  const errors = getFormErrors(touched, form);
+  const fieldError = getFormErrors(touched, form);
 
   return (
     <section className="flex h-screen w-full items-center justify-center bg-gray-900">
@@ -73,7 +71,7 @@ const LoginPage = () => {
             onBlur={() => setTouched((prev) => ({ ...prev, email: true }))}
             placeholder="Enter your email"
             label="Email"
-            error={errors.email}
+            error={fieldError.email}
           />
 
           <InputField
@@ -84,7 +82,7 @@ const LoginPage = () => {
             onBlur={() => setTouched((prev) => ({ ...prev, password: true }))}
             label="Password"
             placeholder="••••••••"
-            error={errors.password}
+            error={fieldError.password}
           />
 
           {formError && <FormError message={formError} />}
