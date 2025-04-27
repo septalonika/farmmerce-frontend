@@ -39,7 +39,6 @@ export const useLogin = () => {
   };
 
   const login = async (
-    { email, password }: LoginParams,
     isDummy = false, // flag untuk dummy login
   ) => {
     setLoading(true);
@@ -50,7 +49,7 @@ export const useLogin = () => {
         // Simulasi dummy login
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        if (email === "anjay@gmail.com" && password === "keren123") {
+        if (form.email === "anjay@gmail.com" && form.password === "keren123") {
           const dummyUser: User = {
             id: "1",
             name: "Dummy User",
@@ -71,7 +70,7 @@ export const useLogin = () => {
         const response = await fetchData({
           endpoint: "/auth/login",
           method: "POST",
-          data: { email, password },
+          data: { email: form.email, password: form.password },
         });
 
         const loggedInUser: User = response.user;
