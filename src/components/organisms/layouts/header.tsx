@@ -17,6 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import iconFarmmerce from "../../../../public/farmmerce-iconic.svg";
 import { useRouter } from "next/navigation";
+import { setUser } from "@/app/stores/auth";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -48,6 +49,23 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = () => {
+    // Hapus data pengguna dari localStorage dan sessionStorage
+    localStorage.removeItem("user");
+    localStorage.removeItem("rememberMe");
+    sessionStorage.removeItem("user");
+
+    // Hapus token dari cookies
+    document.cookie = "auth_token=; max-age=0; path=/";
+
+    // Set user state ke null atau objek kosong
+    setUser(null);
+
+    // Redirect ke halaman login
+    router.replace("/login");
+  };
+
   return (
     <div className="absolute top-0 w-full">
       <AppBar position="static" sx={{ backgroundColor: "#1E2939" }}>
@@ -166,7 +184,7 @@ const Header = () => {
                     onClick={() => {
                       handleCloseUserMenu();
                       if (setting === "Logout") {
-                        router.replace("/login");
+                        handleLogout();
                       }
                     }}
                   >
