@@ -16,15 +16,18 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import iconFarmmerce from "../../../../public/farmmerce-iconic.svg";
+import { useRouter } from "next/navigation";
+import { setUser } from "@/app/stores/auth";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
 const jakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
 });
 
 const Header = () => {
+  const router = useRouter();
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
   );
@@ -46,9 +49,26 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = () => {
+    // Hapus data pengguna dari localStorage dan sessionStorage
+    localStorage.removeItem("user");
+    localStorage.removeItem("rememberMe");
+    sessionStorage.removeItem("user");
+
+    // Hapus token dari cookies
+    document.cookie = "auth_token=; max-age=0; path=/";
+
+    // Set user state ke null atau objek kosong
+    setUser(null);
+
+    // Redirect ke halaman login
+    router.replace("/login");
+  };
+
   return (
     <div className="absolute top-0 w-full">
-      <AppBar position="static" color="primary">
+      <AppBar position="static" sx={{ backgroundColor: "#1E2939" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters className="gap-2">
             <div className="flex items-center gap-2 duration-150 hover:scale-95">
@@ -159,7 +179,15 @@ const Header = () => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      if (setting === "Logout") {
+                        handleLogout();
+                      }
+                    }}
+                  >
                     <Typography sx={{ textAlign: "center" }}>
                       {setting}
                     </Typography>
