@@ -45,6 +45,10 @@ export const useRegister = () => {
         throw new Error("Password and Confirm Password do not match.");
       }
 
+      if (!form.acceptTerms) {
+        throw new Error("You must accept the terms and conditions.");
+      }
+
       // Call real API
       const response = await fetchData({
         endpoint: "/auth/register",
