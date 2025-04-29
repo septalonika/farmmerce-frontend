@@ -1,6 +1,5 @@
 "use client";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import Link from "next/link";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,10 +7,8 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
@@ -61,13 +58,12 @@ const Header = () => {
 
   return (
     <div className="absolute top-0 w-full">
-      <AppBar
-        position="static"
-        sx={{ backgroundColor: "#1E2939" }}
-        className="h-32"
-      >
+      <AppBar position="static" sx={{ backgroundColor: "#1E2939" }}>
         <Container maxWidth="xl">
-          <Toolbar disableGutters className="flex w-full justify-between">
+          <Toolbar
+            disableGutters
+            className="flex h-[70px] w-full items-center justify-between"
+          >
             <div className="flex items-center gap-3 duration-150">
               <Hamburger
                 toggleSidebar={toggleSidebar}
@@ -94,7 +90,9 @@ const Header = () => {
             </div>
 
             <Box sx={{ flexGrow: 0 }} className="flex items-center gap-4">
-              <SearchBar />
+              <div className="hidden md:block">
+                <SearchBar />
+              </div>
 
               <div className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-[2px] border-[#404957]">
                 <Image
