@@ -89,7 +89,10 @@ const Header = () => {
               </Typography>
             </div>
 
-            <Box sx={{ flexGrow: 0 }} className="flex items-center gap-4">
+            <Box
+              sx={{ flexGrow: 0 }}
+              className="flex items-center gap-2 md:gap-4"
+            >
               <div className="hidden md:block">
                 <SearchBar />
               </div>
@@ -100,6 +103,7 @@ const Header = () => {
                   width={20}
                   height={20}
                   alt="cart icon"
+                  className="mr-[2px]"
                 />
                 <div className="absolute -top-3 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
                   2
