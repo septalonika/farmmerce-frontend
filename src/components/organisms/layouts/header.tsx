@@ -99,11 +99,10 @@ const Header = () => {
 
               <div className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-[2px] border-[#404957]">
                 <Image
-                  src="/ic_cart1.svg"
-                  width={20}
-                  height={20}
+                  src="/ic_cart.svg"
+                  width={28}
+                  height={28}
                   alt="cart icon"
-                  className="mr-[2px]"
                 />
                 <div className="absolute -top-3 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
                   2
@@ -113,8 +112,8 @@ const Header = () => {
               <div className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-[2px] border-[#404957]">
                 <Image
                   src="/ic_notification.svg"
-                  width={20}
-                  height={20}
+                  width={25}
+                  height={25}
                   alt="notification icon"
                 />
                 <div className="absolute -top-3 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
