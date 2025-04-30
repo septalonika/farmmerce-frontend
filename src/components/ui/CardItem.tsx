@@ -26,16 +26,18 @@ export type BaseItem = {
 
 type CardItemProps<T extends BaseItem> = {
   data: T;
-  actionLabel?: string;
-  onActionClick?: (data: T) => void;
-  onDetailClick?: (data: T) => void;
+  addToCartLabel?: string; // Label buat Add to Cart button
+  buyNowLabel?: string;
+  onAddToCartClick?: (data: T) => void;
+  onBuyNowClick?: (data: T) => void;
 };
 
 export const CardItem = <T extends BaseItem>({
   data,
-  actionLabel,
-  onActionClick,
-  onDetailClick,
+  addToCartLabel,
+  buyNowLabel,
+  onAddToCartClick,
+  onBuyNowClick,
 }: CardItemProps<T>) => {
   return (
     <Card className="w-full max-w-xs overflow-hidden rounded-3xl border bg-white shadow-md transition-all">
@@ -118,23 +120,24 @@ export const CardItem = <T extends BaseItem>({
         </div>
       </CardContent>
 
-      {(actionLabel || onDetailClick) && (
+      {/* Action Buttons */}
+      {(onAddToCartClick || onBuyNowClick) && (
         <CardFooter className="flex w-full gap-2 p-4 pt-0">
-          {actionLabel && onActionClick && (
+          {addToCartLabel && onAddToCartClick && (
             <CustomButton
               type="button"
-              onClick={() => onActionClick(data)}
-              label="Add to Cart"
+              onClick={() => onAddToCartClick(data)}
+              label={addToCartLabel}
               variant="primary"
               size="small"
               className="flex-1"
             />
           )}
-          {onDetailClick && (
+          {buyNowLabel && onBuyNowClick && (
             <CustomButton
               type="button"
-              onClick={() => onDetailClick(data)}
-              label="Buy Now"
+              onClick={() => onBuyNowClick(data)}
+              label={buyNowLabel}
               variant="secondary"
               size="small"
               className="flex-1"

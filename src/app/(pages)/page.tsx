@@ -44,18 +44,20 @@ const products = [
 
 const HomePage = () => {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="flex gap-3">
+    <div className="flex min-h-screen items-center justify-center pt-24 md:pt-0">
+      <div className="flex flex-wrap justify-center gap-3 p-4">
         {products.map((product) => (
           <CardItem
             key={product.id}
             data={product}
-            actionLabel="Tambah ke Keranjang"
-            onActionClick={(item) => {
-              console.log("Barang yang diklik:", item);
-              // Misal mau tambah ke cart atau buka detail
+            addToCartLabel="Add to Cart"
+            buyNowLabel="Buy Now"
+            onAddToCartClick={(item) => {
+              console.log("Tambah ke keranjang:", item);
             }}
-            onDetailClick={(data) => console.log("Cek Detail:", data)}
+            onBuyNowClick={(item) => {
+              console.log("Beli sekarang:", item);
+            }}
           />
         ))}
       </div>
