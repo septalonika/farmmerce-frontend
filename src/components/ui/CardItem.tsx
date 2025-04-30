@@ -116,23 +116,25 @@ export const CardItem = <T extends BaseItem>({
       </CardContent>
 
       {(actionLabel || onDetailClick) && (
-        <CardFooter className="flex flex-col gap-2 p-4 pt-0">
+        <CardFooter className="flex w-full gap-2 p-4 pt-0">
           {actionLabel && onActionClick && (
             <CustomButton
               type="button"
               onClick={() => onActionClick(data)}
-              label={actionLabel}
+              label="Add to Cart"
               variant="primary"
-              size="medium"
+              size="small"
+              className="flex-1"
             />
           )}
           {onDetailClick && (
             <CustomButton
               type="button"
               onClick={() => onDetailClick(data)}
-              label="Cek Detail"
+              label="Buy Now"
               variant="secondary"
               size="small"
+              className="flex-1"
             />
           )}
         </CardFooter>

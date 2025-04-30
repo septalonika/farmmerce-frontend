@@ -1,5 +1,5 @@
 "use client";
-import { Plus_Jakarta_Sans } from "next/font/google";
+// import { Plus_Jakarta_Sans } from "next/font/google";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -19,9 +19,9 @@ import Hamburger from "@/components/ui/Hamburger";
 import SearchBar from "@/components/ui/SearchBar";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
-const jakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-});
+// const jakartaSans = Plus_Jakarta_Sans({
+//   subsets: ["latin"],
+// });
 
 const Header = () => {
   const router = useRouter();
