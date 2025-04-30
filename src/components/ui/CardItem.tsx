@@ -19,15 +19,15 @@ export type BaseItem = {
   price: number;
   description: string;
   category: string;
-  stock?: number; // optional
-  rating?: number; // optional
-  duration?: string; // optional, untuk service
+  stock?: number;
+  rating?: number;
+  duration?: string;
 };
 
 type CardItemProps<T extends BaseItem> = {
   data: T;
-  actionLabel?: string; // Text di button (ex: "Add to Cart" / "Ajukan Jasa")
-  onActionClick?: (data: T) => void; // Function pas button diklik
+  actionLabel?: string;
+  onActionClick?: (data: T) => void;
   onDetailClick?: (data: T) => void;
 };
 
@@ -50,16 +50,12 @@ export const CardItem = <T extends BaseItem>({
 
       <CardContent className="flex h-54 flex-col justify-between space-y-3 p-4">
         <div className="space-y-1">
-          {/* Nama dan Kategori */}
           <h3 className="truncate text-lg font-bold text-gray-800">
             {data.name}
           </h3>
           <p className="text-xs text-gray-400">{data.category}</p>
 
-          {/* Rating */}
-          {/* Rating + Stock */}
           <div className="mt-1 flex items-center justify-between">
-            {/* Rating */}
             {data.rating !== undefined && (
               <div className="flex items-center gap-0.5">
                 {Array.from({ length: 5 }).map((_, index) => {
@@ -86,9 +82,7 @@ export const CardItem = <T extends BaseItem>({
               </div>
             )}
 
-            {/* Stock */}
             <div className="flex flex-wrap items-center gap-2 text-xs">
-              {/* STOCK */}
               {data.stock !== undefined && (
                 <Badge
                   className={`rounded-full px-2 py-1 text-white ${
@@ -105,7 +99,6 @@ export const CardItem = <T extends BaseItem>({
             </div>
           </div>
 
-          {/* Harga */}
           <div className="mt-2 flex items-center justify-between">
             <p className="text-primary text-lg font-bold">
               Rp {data.price.toLocaleString()}
@@ -119,16 +112,12 @@ export const CardItem = <T extends BaseItem>({
             )}
           </div>
 
-          {/* Deskripsi */}
           <p className="mt-2 line-clamp-2 text-sm text-gray-600">
             {data.description}
           </p>
         </div>
-
-        {/* Info tambahan: stock, durasi */}
       </CardContent>
 
-      {/* Action Button */}
       {(actionLabel || onDetailClick) && (
         <CardFooter className="flex w-full gap-2 p-4 pt-0">
           {actionLabel && onActionClick && (
