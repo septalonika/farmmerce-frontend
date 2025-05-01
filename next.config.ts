@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
       "images.unsplash.com",
       "images.pexels.com",
       "media.istockphoto.com",
+      "www.organicfood.com",
+      "upload.wikimedia.org",
+      "asset-2.tstatic.net",
     ], // <<<< Tambahin domain ini
   },
 };
