@@ -173,7 +173,7 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
             {product.description}
           </p>
 
-          <div className="flex items-center gap-7">
+          <div className="flex items-center justify-end gap-7">
             <label className="md:text-md mb-1 block text-gray-600">Qty :</label>
             <div className="inline-flex items-center gap-3 rounded-full bg-gray-100 px-3 py-1 sm:gap-5">
               <button
