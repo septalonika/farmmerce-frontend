@@ -35,7 +35,7 @@ export const ProductSection = ({ products }: ProductSectionProps) => {
       {/* Filter Section */}
       <section className="flex items-center justify-center p-4">
         <div className="w-full max-w-5xl">
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-4">
             <FilterSelect
               placeholder="All Category"
               options={Array.from(

@@ -14,7 +14,7 @@ export const HeroSection = ({ products }: HeroSectionProps) => {
       <div className="relative z-10 mx-auto flex flex-col-reverse items-center gap-10 px-6 md:flex-row md:items-center md:px-16 xl:gap-16 xl:px-52">
         {/* Left Side - Promotion / Ad */}
         <div className="flex flex-col items-start text-left md:w-1/2">
-          <span className="mb-4 inline-block rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-600">
+          <span className="mb-4 inline-block rounded-full bg-[#bdffb6] px-4 py-2 text-sm font-semibold text-green-600 backdrop-blur-3xl">
             Produk Unggulan 🌾
           </span>
           <h2 className="mb-4 text-3xl font-extrabold text-green-800 drop-shadow-sm md:text-4xl">
@@ -58,7 +58,7 @@ export const HeroSection = ({ products }: HeroSectionProps) => {
                     />
 
                     {/* Overlay */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 backdrop-blur-md transition-opacity duration-500 group-hover:opacity-100">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center rounded-3xl bg-black/50 opacity-0 backdrop-blur-md transition-opacity duration-500 group-hover:opacity-100">
                       <h3 className="translate-y-4 text-2xl font-bold text-white opacity-0 transition-all delay-200 duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                         {product.name}
                       </h3>
