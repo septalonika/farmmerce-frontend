@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import Link from "next/link";
 
 interface HeroSectionProps {
   products: Product[];
@@ -25,12 +26,12 @@ export const HeroSection = ({ products }: HeroSectionProps) => {
             para petani terbaik. Pilih, sewa lahan, atau beli hasil panen
             favoritmu sekarang juga!
           </p>
-          <a
-            href="#products"
+          <Link
+            href="/"
             className="rounded-full bg-green-600 px-6 py-3 text-white transition hover:bg-green-700 hover:shadow-md"
           >
             Belanja Sekarang
-          </a>
+          </Link>
         </div>
 
         {/* Right Side - Product Featured */}
@@ -49,27 +50,29 @@ export const HeroSection = ({ products }: HeroSectionProps) => {
               .slice(0, 3)
               .map((product) => (
                 <SwiperSlide key={product.id}>
-                  <div className="group relative h-80 w-full overflow-hidden rounded-3xl transition-all duration-300">
-                    {/* Gambar Produk */}
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110 group-hover:brightness-75"
-                    />
+                  <Link href={`/products/${product.id}`}>
+                    <div className="group relative h-80 w-full overflow-hidden rounded-3xl transition-all duration-300">
+                      {/* Gambar Produk */}
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110 group-hover:brightness-75"
+                      />
 
-                    {/* Overlay */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center rounded-3xl bg-black/50 opacity-0 backdrop-blur-md transition-opacity duration-500 group-hover:opacity-100">
-                      <h3 className="translate-y-4 text-2xl font-bold text-white opacity-0 transition-all delay-200 duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                        {product.name}
-                      </h3>
-                      <p className="mt-2 mb-4 max-w-xs translate-y-4 text-center text-sm text-gray-200 opacity-0 transition-all delay-300 duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                        {product.description}
-                      </p>
-                      <button className="mt-4 scale-95 transform cursor-pointer rounded-full bg-green-600 px-6 py-2 text-white transition group-hover:scale-100 hover:bg-green-700">
-                        Detail
-                      </button>
+                      {/* Overlay */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center rounded-3xl bg-black/50 opacity-0 backdrop-blur-md transition-opacity duration-500 group-hover:opacity-100">
+                        <h3 className="translate-y-4 text-2xl font-bold text-white opacity-0 transition-all delay-200 duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                          {product.name}
+                        </h3>
+                        <p className="mt-2 mb-4 max-w-xs translate-y-4 text-center text-sm text-gray-200 opacity-0 transition-all delay-300 duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                          {product.description}
+                        </p>
+                        <button className="mt-4 scale-95 transform cursor-pointer rounded-full bg-green-600 px-6 py-2 text-white transition group-hover:scale-100 hover:bg-green-700">
+                          Detail
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </SwiperSlide>
               ))}
           </Swiper>
