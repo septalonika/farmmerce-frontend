@@ -1,6 +1,7 @@
 "use client";
 
 import { CardItem } from "@/components/ui/CardItem";
+import { FilterSelect } from "@/components/ui/FilterSelect";
 
 const products = [
   {
@@ -37,14 +38,78 @@ const products = [
       "Lahan pertanian siap tanam seluas 1 hektar untuk masa sewa 1 tahun.",
     category: "Jasa Sewa Lahan",
     stock: 5,
-    rating: 4.5,
+    rating: 4,
     duration: "1 tahun",
   },
 ];
 
 const HomePage = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center pt-24 md:pt-0">
+    <div className="flex min-h-screen flex-col items-center justify-center pt-24 md:pt-0">
+      {/* Hero Section */}
+      <section className="relative flex w-screen flex-col items-center justify-center gap-4 bg-green-100 py-28 text-center">
+        <h1 className="text-4xl font-bold text-green-800 md:text-5xl">
+          Selamat Datang di Farmmerce 🌾
+        </h1>
+        <p className="max-w-md text-gray-600 md:text-lg">
+          Dukung petani lokal dengan membeli produk segar dan menyewa lahan
+          pertanian terbaik.
+        </p>
+        <a
+          href="#products"
+          className="mt-6 rounded-full bg-green-600 px-6 py-3 text-white transition hover:bg-green-700"
+        >
+          Belanja Sekarang
+        </a>
+      </section>
+      {/* Product Filter Placeholder */}
+      <section className="flex items-center justify-center p-4">
+        <div className="w-full max-w-5xl">
+          <div className="flex flex-wrap justify-center gap-4">
+            {/* Kategori */}
+            <FilterSelect
+              placeholder="Semua Kategori"
+              options={[
+                { label: "Hasil Tani", value: "hasil-tani" },
+                { label: "Jasa Sewa Lahan", value: "jasa-sewa-lahan" },
+              ]}
+              onChange={(value) => console.log("Kategori selected:", value)}
+            />
+
+            {/* Harga */}
+            <FilterSelect
+              placeholder="Harga"
+              options={[
+                { label: "Termurah", value: "low" },
+                { label: "Termahal", value: "high" },
+              ]}
+              onChange={(value) => console.log("Harga selected:", value)}
+            />
+
+            {/* Rating */}
+            <FilterSelect
+              placeholder="Rating"
+              options={[
+                { label: "⭐⭐⭐⭐⭐", value: "5" },
+                { label: "⭐⭐⭐⭐", value: "4" },
+                { label: "⭐⭐⭐", value: "3" },
+              ]}
+              onChange={(value) => console.log("Rating selected:", value)}
+            />
+
+            {/* Stok */}
+            <FilterSelect
+              placeholder="Stok"
+              options={[
+                { label: "Tersedia", value: "available" },
+                { label: "Habis", value: "sold-out" },
+              ]}
+              onChange={(value) => console.log("Stok selected:", value)}
+            />
+          </div>
+        </div>
+      </section>
+
       <div className="flex flex-wrap justify-center gap-3 p-4">
         {products.map((product) => (
           <CardItem
