@@ -50,7 +50,7 @@ export const CardItem = <T extends BaseItem>({
         />
 
         {/* Backdrop */}
-        <div className="absolute inset-0 bg-black/10 transition-all duration-700 ease-in-out group-hover:bg-black/70" />
+        <div className="absolute inset-0 bg-black/10 transition-all duration-700 ease-in-out group-hover:bg-black/70 group-hover:backdrop-blur-xs" />
 
         <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
           <button

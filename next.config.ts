@@ -10,7 +10,8 @@ const nextConfig: NextConfig = {
       "www.organicfood.com",
       "upload.wikimedia.org",
       "asset-2.tstatic.net",
-    ], // <<<< Tambahin domain ini
+      "lenteradesa.id",
+    ], // <<<< Tambah domain yang diizinkan untuk gambar
   },
 };
 
