@@ -16,8 +16,9 @@ import { useRouter } from "next/navigation";
 import { setUser } from "@/app/stores/auth";
 import Hamburger from "@/components/ui/Hamburger";
 import SearchBar from "@/components/ui/SearchBar";
-import { $cartTotalItems } from "@/app/stores/cartStores";
+import { $cartItems, $cartTotalItems } from "@/app/stores/cartStores";
 import { useStore } from "@nanostores/react";
+import CartModal from "@/components/popups/CartModal";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 // const jakartaSans = Plus_Jakarta_Sans({
@@ -27,6 +28,8 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Header = () => {
   const router = useRouter();
   const totalItems = useStore($cartTotalItems);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const cartItems = $cartItems.get();
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
@@ -56,6 +59,10 @@ const Header = () => {
     setUser(null);
 
     router.replace("/login");
+  };
+
+  const handleToggleModal = () => {
+    setIsModalOpen((prev) => !prev);
   };
 
   return (
@@ -99,7 +106,10 @@ const Header = () => {
                 <SearchBar />
               </div>
 
-              <div className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-[2px] border-[#404957]">
+              <div
+                className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-[2px] border-[#404957]"
+                onClick={handleToggleModal}
+              >
                 <Image
                   src="/ic_cart.svg"
                   width={28}
@@ -166,6 +176,7 @@ const Header = () => {
           </Toolbar>
         </Container>
       </AppBar>
+      <CartModal isOpen={isModalOpen} onClose={handleToggleModal} />
     </div>
   );
 };

@@ -58,12 +58,12 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
           href="/cart"
           className="flex items-center gap-1 text-green-700 transition hover:underline"
         >
-          <span className="font-medium">Keranjang</span>
+          <span className="font-medium">All Product</span>
         </Link>
 
         <ChevronRight className="mx-1 h-4 w-4 text-gray-400" />
 
-        <span className="font-semibold text-gray-800">Checkout</span>
+        <span className="font-semibold text-gray-800">{product.name}</span>
       </nav>
 
       <section className="mx-auto flex max-w-6xl flex-col gap-10 px-4 md:flex-row">
@@ -91,7 +91,6 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
             ))}
           </div>
         </div>
-
         {/* Right - Product Info */}
         <div className="w-full space-y-5 md:w-1/2">
           <h2 className="text-2xl font-bold text-green-800 sm:text-3xl">
@@ -102,6 +101,17 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
           <p className="text-sm text-gray-700 sm:text-base">
             {product.description}
           </p>
+
+          {/* Add Stock Information */}
+          <div className="flex items-center text-sm text-gray-600">
+            {product.stock && product.stock > 0 ? (
+              <span className="font-medium text-green-600">
+                Stok Tersedia: {product.stock} {product.unit}
+              </span>
+            ) : (
+              <span className="font-medium text-red-600">Stok Habis</span>
+            )}
+          </div>
 
           <div className="flex items-center justify-end gap-7">
             <label className="md:text-md mb-1 block text-gray-600">Qty :</label>
@@ -133,13 +143,20 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
               label="Add to Cart"
               variant="primary"
               size="small"
+              onClick={() => {
+                const cartItem = {
+                  ...product,
+                  quantity: quantity,
+                };
+                addToCart(cartItem); // Menambahkan item ke cart
+              }}
               className="flex items-center md:px-5 md:py-3"
             />
 
             <CustomButton
               type="button"
               icon={<CreditCard size={16} />}
-              label="Buy Now"
+              label="Checkout Now"
               variant="secondary"
               size="small"
               onClick={() => {
