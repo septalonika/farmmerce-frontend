@@ -1,10 +1,14 @@
 "use client";
 
+import { addToCart } from "@/app/stores/cartStores";
 import { CardItem } from "@/components/ui/CardItem";
+import CustomButton from "@/components/ui/CustomButton";
 import RatingStars from "@/components/ui/RatingStars";
+import { products } from "@/data/dummyData";
 import { ChevronRight, CreditCard, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { use, useState } from "react";
 
 type Params = {
@@ -15,87 +19,13 @@ type ProductDetailPageProps = {
   params: Promise<Params>;
 };
 
-const products = [
-  {
-    id: "1",
-    name: "Beras Organik Premium",
-    image:
-      "https://www.ibmindonesia.com/storage/products/June2023/AOnFQKVW5OlmHbm6Pf8M.jpg",
-    price: 12000, // per kilogram
-    description:
-      "Beras organik berkualitas tinggi, bebas pestisida dan bahan kimia.",
-    category: "Hasil Tani",
-    stock: 200,
-    rating: 4.7,
-  },
-  {
-    id: "2",
-    name: "Sayuran Segar Campuran",
-    image:
-      "https://media.istockphoto.com/id/453963935/id/foto/buah-dan-sayuran-di-pasar-kota-di-riga.jpg?b=1&s=612x612&w=0&k=20&c=zNIqo_H4eLtrQP3ar0KXTv6XB7y25xadVQjh9mwzFvo=",
-    price: 25000, // per paket
-    description:
-      "Paket sayuran segar langsung dari kebun, terdiri dari bayam, kangkung, dan sawi.",
-    category: "Hasil Tani",
-    stock: 150,
-    rating: 4.6,
-  },
-  {
-    id: "3",
-    name: "Sewa Lahan Pertanian 1 Hektar",
-    image:
-      "https://images.pexels.com/photos/31837708/pexels-photo-31837708/free-photo-of-pemandangan-pedesaan-jerman-yang-indah-dengan-jalan-pedesaan.jpeg?auto=compress&cs=tinysrgb&w=600",
-    price: 5000000, // harga sewa
-    description:
-      "Lahan pertanian siap tanam seluas 1 hektar untuk masa sewa 1 tahun.",
-    category: "Jasa Sewa Lahan",
-    stock: 5,
-    rating: 4,
-    duration: "1 tahun",
-  },
-  {
-    id: "4",
-    name: "Pupuk Organik Kompos",
-    image:
-      "https://lenteradesa.id/api/v1/assets/article/631b0918bd41a_1700308528.jpg.webp",
-    price: 30000, // per 50kg
-    description:
-      "Pupuk organik kompos berkualitas tinggi untuk meningkatkan kesuburan tanah.",
-    category: "Hasil Tani",
-    stock: 100,
-    rating: 4.8,
-  },
-  {
-    id: "5",
-    name: "Benih Jagung Super",
-    image:
-      "https://asset-2.tstatic.net/tribunnews/foto/bank/images/ilustrasi-metik-jagung-benih-jagung-manis-nb-super.jpg",
-    price: 5000, // per pack
-    description:
-      "Benih jagung super berkualitas tinggi, siap tanam untuk hasil maksimal.",
-    category: "Benih",
-    stock: 300,
-    rating: 4.5,
-  },
-  {
-    id: "6",
-    name: "Jasa Konsultasi Pertanian",
-    image: "https://images.pexels.com/photos/3200900/pexels-photo-3200900.jpeg",
-    price: 100000, // per sesi
-    description:
-      "Jasa konsultasi pertanian untuk membantu petani dalam pengelolaan lahan dan pemilihan tanaman.",
-    category: "Jasa Pertanian",
-    stock: 50,
-    rating: 2.9,
-  },
-];
-
 const ProductDetail = ({ params }: ProductDetailPageProps) => {
   const { id } = use(params);
   const product = products.find((product) => product.id === id);
 
   const [quantity, setQuantity] = useState(1);
   const [mainImage, setMainImage] = useState(product?.image);
+  const router = useRouter();
 
   if (!product) {
     return <div>Produk tidak ditemukan!</div>;
@@ -112,28 +42,28 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
   ];
 
   return (
-    <div className="px-4 pt-24 sm:px-8 md:px-12 lg:px-20 xl:px-28 2xl:px-40">
+    <div className="xl: px-4 pt-24 sm:px-8 md:px-12 lg:px-20 xl:mx-[50px] 2xl:px-40">
       {/* Breadcrumb */}
       <nav className="mb-6 flex items-center text-sm text-gray-600">
         <Link
           href="/"
           className="flex items-center gap-1 text-green-700 transition hover:underline"
         >
-          <span className="font-medium">Home</span>
+          <span className="font-medium">Beranda</span>
         </Link>
 
         <ChevronRight className="mx-1 h-4 w-4 text-gray-400" />
 
         <Link
-          href="/products"
+          href="/cart"
           className="flex items-center gap-1 text-green-700 transition hover:underline"
         >
-          <span className="font-medium">All Products</span>
+          <span className="font-medium">Keranjang</span>
         </Link>
 
         <ChevronRight className="mx-1 h-4 w-4 text-gray-400" />
 
-        <span className="font-semibold text-gray-800">{product.name}</span>
+        <span className="font-semibold text-gray-800">Checkout</span>
       </nav>
 
       <section className="mx-auto flex max-w-6xl flex-col gap-10 px-4 md:flex-row">
@@ -196,13 +126,32 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
           <div className="flex justify-end text-2xl font-bold text-green-700 transition-colors duration-300 sm:text-3xl">
             Rp {totalPrice.toLocaleString()}
           </div>
-          <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
-            <button className="flex w-full max-w-xs cursor-pointer items-center justify-center gap-2 rounded-full bg-green-600 p-3 text-sm text-white shadow-md transition hover:bg-green-700 sm:px-6 sm:py-3 sm:text-base">
-              <ShoppingCart size={16} /> Add to Cart
-            </button>
-            <button className="flex w-full max-w-xs cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-green-600 p-3 text-sm text-green-700 transition hover:bg-green-600 hover:text-white sm:px-6 sm:py-3 sm:text-base">
-              <CreditCard size={16} /> Buy Now
-            </button>
+          <div className="flex justify-end gap-2 sm:flex-row sm:gap-4">
+            <CustomButton
+              type="button"
+              icon={<ShoppingCart size={16} />}
+              label="Add to Cart"
+              variant="primary"
+              size="small"
+              className="flex items-center md:px-5 md:py-3"
+            />
+
+            <CustomButton
+              type="button"
+              icon={<CreditCard size={16} />}
+              label="Buy Now"
+              variant="secondary"
+              size="small"
+              onClick={() => {
+                const cartItem = {
+                  ...product,
+                  quantity: quantity,
+                };
+                addToCart(cartItem); // Menambahkan item ke cart terlebih dahulu
+                router.push("/checkout"); // Arahkan ke halaman checkout
+              }}
+              className="flex items-center md:px-5 md:py-3"
+            />
           </div>
         </div>
       </section>
