@@ -7,6 +7,8 @@ import { useLogin } from "@/hooks/auth/useLogin";
 import InputField from "@/components/ui/InputField";
 import FormError from "@/components/ui/FormError";
 import CustomButton from "@/components/ui/CustomButton";
+import { login as goLogin, authStore, set } from "@/app/stores/token";
+import { useStore } from "@nanostores/react";
 
 const getFormErrors = (
   touched: { email: boolean; password: boolean },
@@ -24,6 +26,7 @@ const LoginPage = () => {
     useLogin();
   const [touched, setTouched] = useState({ email: false, password: false });
   const [formError, setFormError] = useState<string>("");
+  const store = useStore(authStore);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +43,12 @@ const LoginPage = () => {
         err instanceof Error ? err.message : "An unexpected error occurred.",
       );
     }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    goLogin();
   };
 
   const fieldError = getFormErrors(touched, form);
@@ -63,7 +72,7 @@ const LoginPage = () => {
 
         {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <InputField
+          {/* <InputField
             id="email"
             type="email"
             value={form.email}
@@ -80,6 +89,25 @@ const LoginPage = () => {
             value={form.password}
             onChange={(e) => setFormLogin({ password: e.target.value })}
             onBlur={() => setTouched((prev) => ({ ...prev, password: true }))}
+            label="Password"
+            placeholder="••••••••"
+            error={fieldError.password}
+          /> */}
+          <InputField
+            id="email"
+            type="email"
+            value={authStore.get().id}
+            onChange={(e) => set({ id: e.target.value })}
+            placeholder="Enter your email"
+            label="Email"
+            error={fieldError.email}
+          />
+
+          <InputField
+            id="password"
+            type="password"
+            value={authStore.get().password}
+            onChange={(e) => set({ password: e.target.value })}
             label="Password"
             placeholder="••••••••"
             error={fieldError.password}
@@ -119,6 +147,8 @@ const LoginPage = () => {
             size="medium"
             className="mt-4 w-full cursor-pointer hover:scale-105"
           />
+
+          <button onClick={handleLogin}>Login</button>
 
           <p className="text-center text-sm text-gray-400">
             Don’t have an account?{" "}
