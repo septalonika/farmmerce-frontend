@@ -43,10 +43,10 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
             label: "Toko Saya",
             icon: <AiOutlineShop size={20} />,
             subMenu: [
-              { href: "/merchant", label: "Profile Toko" },
-              { href: "/manage-products", label: "Kelola Produk" },
-              { href: "/sales-report", label: "Statistik Penjualan" },
-              { href: "/store-settings", label: "Pengaturan Toko" },
+              { href: "/toko/profile", label: "Profile Toko" },
+              { href: "/toko/manage-products", label: "Kelola Produk" },
+              { href: "/toko/sales-report", label: "Statistik Penjualan" },
+              { href: "/toko/setting", label: "Pengaturan Toko" },
             ],
           },
         ]
