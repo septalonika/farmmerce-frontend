@@ -6,12 +6,12 @@ import iconFarmmerce from "../../../../public/farmmerce-iconic.svg";
 import { useLogin } from "@/hooks/auth/useLogin";
 import InputField from "@/components/ui/InputField";
 import CustomButton from "@/components/ui/CustomButton";
-import { login as goLogin, authStore, set } from "@/app/stores/token";
+import { authStore, set, login } from "@/app/stores/login";
 import { useStore } from "@nanostores/react";
 import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
-  const { loading, setRememberMe, rememberMe } = useLogin();
+  const store = useStore(authStore);
   const auth = useStore(authStore);
   const router = useRouter();
   const [touched, setTouched] = useState({
@@ -33,7 +33,14 @@ const LoginPage = () => {
       return;
     }
 
-    goLogin();
+    try {
+      login();
+      if (!store.loading) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (
@@ -84,8 +91,8 @@ const LoginPage = () => {
                 id="remember"
                 type="checkbox"
                 className="h-4 w-4 rounded border-gray-600 text-green-500"
-                checked={rememberMe}
-                onChange={() => setRememberMe(!rememberMe)}
+                // checked={rememberMe}
+                // onChange={() => setRememberMe(!rememberMe)}
               />
               <label htmlFor="remember" className="text-sm text-gray-400">
                 Remember me
@@ -104,7 +111,7 @@ const LoginPage = () => {
           <CustomButton
             type="submit"
             label="Sign In"
-            loading={loading}
+            // loading={loading}
             variant="primary"
             size="medium"
             className="mt-4 w-full cursor-pointer hover:scale-105"
