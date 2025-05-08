@@ -34,10 +34,8 @@ const LoginPage = () => {
     }
 
     try {
-      login();
-      if (!store.loading) {
-        router.push("/");
-      }
+      await login();
+      router.push("/");
     } catch (error) {
       console.log("error", error);
     }

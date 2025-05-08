@@ -76,7 +76,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <nav
       className={clsx(
-        "fixed top-0 z-50 h-[100vh] max-w-[350px] overflow-hidden rounded-r-3xl border-[1px] border-[#30363D] bg-[#161B22] text-[#E8EEF4] transition-transform duration-300 ease-in-out md:w-[250px]",
+        "fixed top-0 z-50 h-[100vh] w-[200px] overflow-hidden rounded-r-3xl border-[1px] border-[#30363D] bg-[#161B22] text-[#E8EEF4] transition-transform duration-300 ease-in-out md:w-[250px]",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full",
       )}
     >
@@ -87,7 +87,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
         &times;
       </button>
       <div className="flex h-full flex-col items-start justify-between">
-        <ul className="mt-4 flex w-full flex-col gap-5 text-[18px] font-semibold">
+        <ul className="mt-4 flex w-full flex-col gap-2 text-[18px] font-semibold md:gap-3">
           <li className="ml-6 flex justify-start">
             <Image
               src={iconFarmmerce}
@@ -103,7 +103,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
               <Link
                 href={href}
                 className={clsx(
-                  "flex gap-3 rounded-r-3xl px-6 py-3 text-sm transition-all duration-300 ease-in-out",
+                  "flex gap-3 rounded-r-3xl px-3 py-2 text-sm transition-all duration-300 ease-in-out md:px-6 md:py-3",
                   pathname === href
                     ? "bg-[linear-gradient(180deg,_#2ecac8,_#388886)]"
                     : "hover:bg-[#93C0CA]",
@@ -139,7 +139,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
                       <Link
                         href={href}
                         className={clsx(
-                          "flex gap-3 rounded-r-3xl px-6 py-3 text-sm transition-all duration-300 ease-in-out",
+                          "flex gap-3 rounded-r-3xl px-3 py-2 text-sm transition-all duration-300 ease-in-out md:px-6 md:py-3",
                           pathname === href
                             ? "bg-[linear-gradient(180deg,_#2ecac8,_#388886)]"
                             : "hover:bg-[#93C0CA]",
