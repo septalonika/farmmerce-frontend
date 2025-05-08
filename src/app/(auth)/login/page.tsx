@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import iconFarmmerce from "../../../../public/farmmerce-iconic.svg";
-import { useLogin } from "@/hooks/auth/useLogin";
+// import { useLogin } from "@/hooks/auth/useLogin";
 import InputField from "@/components/ui/InputField";
-import FormError from "@/components/ui/FormError";
+// import FormError from "@/components/ui/FormError";
 import CustomButton from "@/components/ui/CustomButton";
-import { login as goLogin, authStore, set } from "@/app/stores/token";
+import { authStore, set, login } from "@/app/stores/login";
 import { useStore } from "@nanostores/react";
+import { useRouter } from "next/navigation";
 
 const getFormErrors = (
   touched: { email: boolean; password: boolean },
@@ -22,36 +23,19 @@ const getFormErrors = (
 };
 
 const LoginPage = () => {
-  const { form, setFormLogin, loading, login, setRememberMe, rememberMe } =
-    useLogin();
-  const [touched, setTouched] = useState({ email: false, password: false });
-  const [formError, setFormError] = useState<string>("");
   const store = useStore(authStore);
-
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setTouched({ email: true, password: true });
-
-    const { email, password } = form;
-    if (!email || !password) {
-      return;
-    }
     try {
-      await login(true);
-    } catch (err: unknown) {
-      setFormError(
-        err instanceof Error ? err.message : "An unexpected error occurred.",
-      );
+      login();
+      if (!store.loading) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.log("error", error);
     }
   };
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    goLogin();
-  };
-
-  const fieldError = getFormErrors(touched, form);
 
   return (
     <section className="flex h-screen w-full items-center justify-center bg-gray-900">
@@ -96,24 +80,24 @@ const LoginPage = () => {
           <InputField
             id="email"
             type="email"
-            value={authStore.get().id}
+            value={store.id}
             onChange={(e) => set({ id: e.target.value })}
             placeholder="Enter your email"
             label="Email"
-            error={fieldError.email}
+            // error={fieldError.email}
           />
 
           <InputField
             id="password"
             type="password"
-            value={authStore.get().password}
+            value={store.password}
             onChange={(e) => set({ password: e.target.value })}
             label="Password"
             placeholder="••••••••"
-            error={fieldError.password}
+            // error={fieldError.password}
           />
 
-          {formError && <FormError message={formError} />}
+          {/* {formError && <FormError message={formError} />} */}
 
           {/* Remember Me and Forgot Password */}
           <div className="flex items-center justify-between">
@@ -122,8 +106,8 @@ const LoginPage = () => {
                 id="remember"
                 type="checkbox"
                 className="h-4 w-4 rounded border-gray-600 text-green-500"
-                checked={rememberMe}
-                onChange={() => setRememberMe(!rememberMe)}
+                // checked={rememberMe}
+                // onChange={() => setRememberMe(!rememberMe)}
               />
               <label htmlFor="remember" className="text-sm text-gray-400">
                 Remember me
@@ -142,13 +126,11 @@ const LoginPage = () => {
           <CustomButton
             type="submit"
             label="Sign In"
-            loading={loading}
+            // loading={loading}
             variant="primary"
             size="medium"
             className="mt-4 w-full cursor-pointer hover:scale-105"
           />
-
-          <button onClick={handleLogin}>Login</button>
 
           <p className="text-center text-sm text-gray-400">
             Don’t have an account?{" "}
