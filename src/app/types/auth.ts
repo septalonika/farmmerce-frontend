@@ -1,7 +1,6 @@
 export interface Token {
   token?: string;
   refreshToken?: string;
-  data?: any;
 }
 
 export interface Auth {
@@ -14,10 +13,7 @@ export interface Metadata {
   request_id: string;
 }
 export interface LoginResponse {
-  success: true;
-  data: {
-    access_token: string;
-    refresh_token: string;
-    token_type: "bearer";
-  };
+  access_token: string;
+  refresh_token: string;
+  token_type: "bearer";
 }
