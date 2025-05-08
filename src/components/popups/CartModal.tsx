@@ -2,13 +2,11 @@
 
 import {
   $cartItems,
-  addToCart,
   removeFromCart,
   updateQuantity,
 } from "@/app/stores/cartStores";
 import Image from "next/image";
 import CustomButton from "../ui/CustomButton";
-import { CreditCard } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
