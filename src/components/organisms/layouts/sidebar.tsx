@@ -3,11 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import React from "react";
-import { LogOut, User } from "lucide-react";
-import { FiBox, FiHome, FiUsers } from "react-icons/fi";
+import React, { useState } from "react";
+import {
+  FiChevronRight,
+  FiClipboard,
+  FiHelpCircle,
+  FiHome,
+  FiInfo,
+  FiMail,
+  FiUsers,
+} from "react-icons/fi";
 import { AiOutlineShop } from "react-icons/ai"; // React Icon untuk Toko
-import { RiShoppingCartLine } from "react-icons/ri"; // React Icon untuk Pesana
+import { RiShoppingCartLine } from "react-icons/ri"; // React Icon untuk Pesanan
 import iconFarmmerce from "../../../../public/farmmerce-iconic.svg";
 
 interface SidebarProps {
@@ -19,6 +26,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
   const user = { name: "John Doe", role: "seller" }; // Ganti dengan data pengguna yang sesuai
 
+  const [isSellerMenuOpen, setSellerMenuOpen] = useState(false);
   if (!user) return null; // Pastikan ada user sebelum menampilkan sidebar
 
   const menuItems = [
@@ -28,22 +36,18 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
       label: "Transaksi Saya",
       icon: <RiShoppingCartLine size={20} />,
     },
-    {
-      href: "/products",
-      label: "Produk",
-      icon: <FiBox size={20} />,
-    },
-    {
-      href: "/inventory",
-      label: "Stok Barang",
-      icon: <FiBox size={20} />, // Bisa diganti dengan ikon yang lebih sesuai
-    },
     ...(user.role === "seller"
       ? [
           {
-            href: "/merchant",
+            href: "#",
             label: "Toko Saya",
             icon: <AiOutlineShop size={20} />,
+            subMenu: [
+              { href: "/merchant", label: "Profile Toko" },
+              { href: "/manage-products", label: "Kelola Produk" },
+              { href: "/sales-report", label: "Statistik Penjualan" },
+              { href: "/store-settings", label: "Pengaturan Toko" },
+            ],
           },
         ]
       : []),
@@ -56,12 +60,23 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
           },
         ]
       : []),
+    {
+      href: "/services",
+      label: "Layanan Kami",
+      icon: <FiClipboard size={20} />, // Menyediakan layanan khusus
+    },
+
+    {
+      href: "/about",
+      label: "Tentang Kami",
+      icon: <FiInfo size={20} />, // Lebih cocok untuk halaman About
+    },
   ];
 
   return (
     <nav
       className={clsx(
-        "fixed top-0 z-50 h-[100vh] max-w-[350px] rounded-r-3xl border-[1px] border-[#30363D] bg-[#161B22] text-[#E8EEF4] transition-transform duration-300 ease-in-out md:w-[250px]",
+        "fixed top-0 z-50 h-[100vh] max-w-[350px] overflow-hidden rounded-r-3xl border-[1px] border-[#30363D] bg-[#161B22] text-[#E8EEF4] transition-transform duration-300 ease-in-out md:w-[250px]",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full",
       )}
     >
@@ -83,7 +98,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
             />
           </li>
 
-          {menuItems.map(({ href, label, icon }) => (
+          {menuItems.map(({ href, label, icon, subMenu }) => (
             <li key={href}>
               <Link
                 href={href}
@@ -93,24 +108,83 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
                     ? "bg-[linear-gradient(180deg,_#2ecac8,_#388886)]"
                     : "hover:bg-[#93C0CA]",
                 )}
+                onClick={() => {
+                  if (subMenu) setSellerMenuOpen(!isSellerMenuOpen);
+                }}
               >
                 <span className="text-xl">{icon}</span> {label}
+                {subMenu && (
+                  <span
+                    className={clsx(
+                      "ml-auto text-xl transition-transform duration-300 ease-in-out",
+                      isSellerMenuOpen ? "rotate-90" : "rotate-0",
+                    )}
+                  >
+                    <FiChevronRight size={20} />
+                  </span>
+                )}
               </Link>
+              {subMenu && isSellerMenuOpen && (
+                <ul
+                  className="mt-2 ml-8 flex flex-col gap-1 overflow-hidden"
+                  style={{
+                    maxHeight: isSellerMenuOpen ? "500px" : "0px", // Menyesuaikan max-height agar animasi mulus
+                    opacity: isSellerMenuOpen ? 1 : 0, // Menambahkan efek fade-in dan fade-out
+                    transition:
+                      "max-height 0.5s ease-in-out, opacity 0.5s ease-in-out", // Durasi transisi untuk kedua properti
+                  }}
+                >
+                  {subMenu.map(({ href, label }) => (
+                    <li key={href}>
+                      <Link
+                        href={href}
+                        className={clsx(
+                          "flex gap-3 rounded-r-3xl px-6 py-3 text-sm transition-all duration-300 ease-in-out",
+                          pathname === href
+                            ? "bg-[linear-gradient(180deg,_#2ecac8,_#388886)]"
+                            : "hover:bg-[#93C0CA]",
+                        )}
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>
-        <ul className="mt-auto">
-          <li className="flex items-center gap-3 px-6 py-3 text-sm">
-            <User size={20} />
-            <p className="text-sm font-semibold">{user.name}</p>{" "}
-          </li>
-          <li
-            onClick={() => alert("Logout dulu bro 😎")}
-            className="flex cursor-pointer items-center gap-3 px-6 py-3 text-sm transition-all duration-300 hover:bg-[#93C0CA]"
+        <ul className="mt-auto w-full">
+          <Link
+            href="/faq"
+            className={clsx(
+              "flex gap-3 px-6 py-3 text-sm transition-all duration-300 ease-in-out",
+              pathname === "/faq"
+                ? "bg-[linear-gradient(180deg,_#2ecac8,_#388886)]"
+                : "hover:bg-[#93C0CA]",
+            )}
           >
-            <LogOut size={20} /> {/* Ikon Logout */}
-            <p>Logout</p>
-          </li>
+            <span className="text-xl">
+              {" "}
+              <FiHelpCircle size={20} />
+            </span>{" "}
+            FAQ
+          </Link>
+          <Link
+            href="/contact"
+            className={clsx(
+              "flex gap-3 px-6 py-3 text-sm transition-all duration-300 ease-in-out",
+              pathname === "/contact"
+                ? "bg-[linear-gradient(180deg,_#2ecac8,_#388886)]"
+                : "hover:bg-[#93C0CA]",
+            )}
+          >
+            <span className="text-xl">
+              {" "}
+              <FiMail size={20} />
+            </span>{" "}
+            Hubungi Kami
+          </Link>
         </ul>
       </div>
     </nav>
