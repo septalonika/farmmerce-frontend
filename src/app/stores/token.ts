@@ -1,5 +1,5 @@
 import { atom } from "nanostores";
-import { authFetch, useAuthFetch } from "@/app/composables/CustomFetch";
+import { authFetch } from "@/app/composables/CustomFetch";
 
 type Token = {
   token?: string;

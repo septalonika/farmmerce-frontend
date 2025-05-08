@@ -5,53 +5,36 @@ import Image from "next/image";
 import iconFarmmerce from "../../../../public/farmmerce-iconic.svg";
 import { useLogin } from "@/hooks/auth/useLogin";
 import InputField from "@/components/ui/InputField";
-import FormError from "@/components/ui/FormError";
 import CustomButton from "@/components/ui/CustomButton";
 import { login as goLogin, authStore, set } from "@/app/stores/token";
 import { useStore } from "@nanostores/react";
-
-const getFormErrors = (
-  touched: { email: boolean; password: boolean },
-  form: { email: string; password: string },
-) => {
-  return {
-    email: touched.email && !form.email ? "Please enter your email." : "",
-    password:
-      touched.password && !form.password ? "Please enter your password." : "",
-  };
-};
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
-  const { form, setFormLogin, loading, login, setRememberMe, rememberMe } =
-    useLogin();
-  const [touched, setTouched] = useState({ email: false, password: false });
-  const [formError, setFormError] = useState<string>("");
-  const store = useStore(authStore);
+  const { loading, setRememberMe, rememberMe } = useLogin();
+  const auth = useStore(authStore);
+  const router = useRouter();
+  const [touched, setTouched] = useState({
+    email: false,
+    password: false,
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setTouched({ email: true, password: true });
-
-    const { email, password } = form;
-    if (!email || !password) {
-      return;
-    }
-    try {
-      await login(true);
-    } catch (err: unknown) {
-      setFormError(
-        err instanceof Error ? err.message : "An unexpected error occurred.",
-      );
-    }
+  const fieldError = {
+    email: touched.email && !auth.id ? "Please enter your email." : "",
+    password:
+      touched.password && !auth.password ? "Please enter your password." : "",
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    const { id, password } = authStore.get();
+    if (!id || !password) {
+      alert("Email dan password harus diisi."); // ganti alert sesuai selera
+      return;
+    }
 
     goLogin();
   };
-
-  const fieldError = getFormErrors(touched, form);
 
   return (
     <section className="flex h-screen w-full items-center justify-center bg-gray-900">
@@ -71,12 +54,12 @@ const LoginPage = () => {
         </div>
 
         {/* Form */}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {/* <InputField
+        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+          <InputField
             id="email"
             type="email"
-            value={form.email}
-            onChange={(e) => setFormLogin({ email: e.target.value })}
+            value={auth.id}
+            onChange={(e) => set({ id: e.target.value })}
             onBlur={() => setTouched((prev) => ({ ...prev, email: true }))}
             placeholder="Enter your email"
             label="Email"
@@ -86,34 +69,13 @@ const LoginPage = () => {
           <InputField
             id="password"
             type="password"
-            value={form.password}
-            onChange={(e) => setFormLogin({ password: e.target.value })}
+            value={auth.password}
+            onChange={(e) => set({ password: e.target.value })}
             onBlur={() => setTouched((prev) => ({ ...prev, password: true }))}
             label="Password"
             placeholder="••••••••"
             error={fieldError.password}
-          /> */}
-          <InputField
-            id="email"
-            type="email"
-            value={authStore.get().id}
-            onChange={(e) => set({ id: e.target.value })}
-            placeholder="Enter your email"
-            label="Email"
-            error={fieldError.email}
           />
-
-          <InputField
-            id="password"
-            type="password"
-            value={authStore.get().password}
-            onChange={(e) => set({ password: e.target.value })}
-            label="Password"
-            placeholder="••••••••"
-            error={fieldError.password}
-          />
-
-          {formError && <FormError message={formError} />}
 
           {/* Remember Me and Forgot Password */}
           <div className="flex items-center justify-between">
@@ -147,8 +109,6 @@ const LoginPage = () => {
             size="medium"
             className="mt-4 w-full cursor-pointer hover:scale-105"
           />
-
-          <button onClick={handleLogin}>Login</button>
 
           <p className="text-center text-sm text-gray-400">
             Don’t have an account?{" "}
