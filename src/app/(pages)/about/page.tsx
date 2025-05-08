@@ -1,4 +1,3 @@
-import Home from "@/components/organisms/home";
 import AboutUs from "@/components/organisms/about";
 
 const AboutPage = () => {

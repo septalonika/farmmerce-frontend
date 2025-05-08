@@ -26,7 +26,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   const getButtonClass = () => {
     // Default button styles based on variant and size
     const baseClasses =
-      "rounded-lg font-bold text-white shadow-md transition-all duration-300 transform";
+      "rounded-lg font-bold text-white shadow-md transition-all duration-300 transform cursor-pointer";
     const sizeClasses = {
       small: "px-4 py-2 text-sm",
       medium: "px-6 py-3 text-base",
@@ -40,7 +40,11 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       neutral: "bg-gray-500 hover:bg-gray-600",
     };
 
-    return `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
+    const disabledClasses = "opacity-50 cursor-not-allowed hover:bg-none";
+
+    return `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${
+      disabled ? disabledClasses : ""
+    } ${className}`;
   };
 
   return (

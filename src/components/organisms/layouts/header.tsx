@@ -1,6 +1,4 @@
 "use client";
-import { Plus_Jakarta_Sans } from "next/font/google";
-import Link from "next/link";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,42 +6,43 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import iconFarmmerce from "../../../../public/farmmerce-iconic.svg";
 import { useRouter } from "next/navigation";
 import { setUser } from "@/app/stores/auth";
+import Hamburger from "@/components/ui/Hamburger";
+import SearchBar from "@/components/ui/SearchBar";
+import { $cartItems, $cartTotalItems } from "@/app/stores/cartStores";
+import { useStore } from "@nanostores/react";
+import CartModal from "@/components/popups/CartModal";
 
-const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
-const jakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-});
+// const jakartaSans = Plus_Jakarta_Sans({
+//   subsets: ["latin"],
+// });
 
 const Header = () => {
   const router = useRouter();
+  const totalItems = useStore($cartTotalItems);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const cartItems = $cartItems.get();
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null,
-  );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+  const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseUserMenu = () => {
@@ -51,33 +50,40 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    // Hapus data pengguna dari localStorage dan sessionStorage
     localStorage.removeItem("user");
     localStorage.removeItem("rememberMe");
     sessionStorage.removeItem("user");
 
-    // Hapus token dari cookies
     document.cookie = "auth_token=; max-age=0; path=/";
 
-    // Set user state ke null atau objek kosong
     setUser(null);
 
-    // Redirect ke halaman login
     router.replace("/login");
   };
 
+  const handleToggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
   return (
-    <div className="absolute top-0 w-full">
+    <div className="absolute top-0 z-50 w-full">
       <AppBar position="static" sx={{ backgroundColor: "#1E2939" }}>
         <Container maxWidth="xl">
-          <Toolbar disableGutters className="gap-2">
-            <div className="flex items-center gap-2 duration-150 hover:scale-95">
-              <Image src={iconFarmmerce} alt={"farmmerce-icon"} width={40} />
+          <Toolbar
+            disableGutters
+            className="flex h-[70px] w-full items-center justify-between"
+          >
+            <div className="flex items-center gap-3 duration-150">
+              <Hamburger
+                toggleSidebar={toggleSidebar}
+                isSidebarOpen={isSidebarOpen}
+              />
+              <Image src={iconFarmmerce} alt={"farmmerce-icon"} width={35} />
               <Typography
                 variant="h6"
                 noWrap
                 component="a"
-                href="#app-bar-with-responsive-menu"
+                href="/"
                 sx={{
                   mr: 2,
                   display: { xs: "none", md: "flex" },
@@ -88,75 +94,47 @@ const Header = () => {
                   textDecoration: "none",
                 }}
               >
-                FARMMERCE
+                Farmmerce
               </Typography>
             </div>
 
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{ display: { xs: "block", md: "none" } }}
-              >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography sx={{ textAlign: "center" }}>{page}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href="#app-bar-with-responsive-menu"
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
+            <Box
+              sx={{ flexGrow: 0 }}
+              className="flex items-center gap-2 md:gap-4"
             >
-              LOGO
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
-                <Button
-                  className="duration-150 hover:scale-95"
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {page}
-                </Button>
-              ))}
-            </Box>
-            <Box sx={{ flexGrow: 0 }}>
+              <div className="hidden md:block">
+                <SearchBar />
+              </div>
+
+              <div
+                className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-[2px] border-[#404957]"
+                onClick={handleToggleModal}
+              >
+                <Image
+                  src="/ic_cart.svg"
+                  width={28}
+                  height={28}
+                  alt="cart icon"
+                />
+                {totalItems > 0 && (
+                  <div className="absolute -top-3 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                    {totalItems}
+                  </div>
+                )}
+              </div>
+
+              <div className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-[2px] border-[#404957]">
+                <Image
+                  src="/ic_notification.svg"
+                  width={25}
+                  height={25}
+                  alt="notification icon"
+                />
+                <div className="absolute -top-3 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                  3
+                </div>
+              </div>
+
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -198,6 +176,7 @@ const Header = () => {
           </Toolbar>
         </Container>
       </AppBar>
+      <CartModal isOpen={isModalOpen} onClose={handleToggleModal} />
     </div>
   );
 };
