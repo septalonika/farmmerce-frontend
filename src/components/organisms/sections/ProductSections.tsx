@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 import { filterProducts } from "@/utils/filterProducts";
 import { FilterSelect } from "@/components/ui/FilterSelect";
 import { CardItem } from "@/components/ui/CardItem";
+import { Product } from "@/interface/products";
+import { addToCart } from "@/app/stores/cartStores";
+import { useRouter } from "next/navigation";
+import { CreditCard, ShoppingCart } from "lucide-react";
 
 interface ProductSectionProps {
   products: Product[];
@@ -15,7 +19,7 @@ export const ProductSection = ({ products }: ProductSectionProps) => {
     rating: "",
     stock: "",
   });
-
+  const router = useRouter();
   const [filteredProducts, setFilteredProducts] = useState(products);
 
   useEffect(() => {
@@ -87,12 +91,27 @@ export const ProductSection = ({ products }: ProductSectionProps) => {
             key={product.id}
             data={product}
             addToCartLabel="Add to Cart"
+            addToCartIcon={<ShoppingCart size={16} />}
+            buyNowIcon={<CreditCard size={16} />}
             buyNowLabel="Buy Now"
             onAddToCartClick={(item) => {
-              console.log("Tambah ke keranjang:", item);
+              const cartItem = {
+                ...item,
+                quantity: 1,
+                unit: item.unit || "pcs",
+              };
+              addToCart(cartItem);
+              console.log("Tambah ke keranjang:", cartItem);
             }}
             onBuyNowClick={(item) => {
+              const cartItem = {
+                ...item,
+                quantity: 1,
+                unit: item.unit || "pcs",
+              };
+              addToCart(cartItem);
               console.log("Beli sekarang:", item);
+              router.push("/checkout");
             }}
           />
         ))}

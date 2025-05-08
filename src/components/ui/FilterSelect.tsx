@@ -19,7 +19,7 @@ export const FilterSelect: React.FC<FilterSelectProps> = ({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block text-sm">
       <select
         title="Filter"
         className="cursor-pointer appearance-none rounded-full border px-4 py-2 pr-10 shadow-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"

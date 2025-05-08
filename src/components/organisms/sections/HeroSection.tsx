@@ -4,6 +4,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import Link from "next/link";
+import { Product } from "@/interface/products";
 
 interface HeroSectionProps {
   products: Product[];
