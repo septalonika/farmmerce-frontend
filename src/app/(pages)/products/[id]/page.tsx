@@ -54,7 +54,7 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
         <ChevronRight className="mx-1 h-4 w-4 text-gray-400" />
 
         <Link
-          href="/cart"
+          href="#"
           className="flex items-center gap-1 text-green-700 transition hover:underline"
         >
           <span className="font-medium">All Product</span>
