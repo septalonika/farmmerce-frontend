@@ -5,7 +5,7 @@ import { CardItem } from "@/components/ui/CardItem";
 import CustomButton from "@/components/ui/CustomButton";
 import RatingStars from "@/components/ui/RatingStars";
 import { products } from "@/data/dummyData";
-import { ChevronRight, CreditCard, ShoppingCart } from "lucide-react";
+import { ChevronRight, Clock, CreditCard, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { use, useState } from "react";
@@ -102,7 +102,6 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
           {/* Rating */}
           <div className="flex items-center space-x-2">
             <RatingStars rating={product.rating} />
-            <span className="text-sm text-gray-600">({product.rating})</span>
           </div>
 
           <p className="text-lg text-gray-700 sm:text-xl">
@@ -116,13 +115,21 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
               alt={product.store?.name}
               className="h-12 w-12 rounded-full border-2 border-green-500 transition-transform duration-300 hover:scale-110"
             />
-            <p className="text-sm font-medium text-gray-600">
-              Dijual oleh:{" "}
+            <div className="text-sm font-medium text-gray-600">
               <span className="font-semibold">{product.store?.name}</span>
-            </p>
+              <span className="flex items-center gap-2 text-sm text-gray-600">
+                <Clock size={16} className="text-gray-800" />
+                <span className="text-gray-800">± 2 Jam</span>
+                <p className="text-gray-500">pesanan diproses</p>
+              </span>
+            </div>
+
+            <button className="ml-4 rounded-full border-2 border-green-600 px-6 py-1 text-sm font-medium text-green-600 transition-all duration-300 hover:border-green-700 hover:bg-green-600 hover:text-white">
+              Follow
+            </button>
           </div>
 
-          {/* Add Stock Information */}
+          {/* Stock Information */}
           <div className="mt-3 flex items-center text-sm text-gray-600">
             {product.stock && product.stock > 0 ? (
               <span className="font-medium text-green-600">
@@ -136,7 +143,7 @@ const ProductDetail = ({ params }: ProductDetailPageProps) => {
           {/* Quantity Selector */}
           <div className="mt-4 flex items-center gap-2 text-lg font-medium">
             <label className="text-gray-600">Qty:</label>
-            <div className="inline-flex items-center justify-center gap-3 rounded-full bg-gray-100 px-5 py-2 shadow-md">
+            <div className="inline-flex items-center justify-center gap-3 rounded-full bg-gray-100 px-5 py-1 shadow-md">
               <button
                 className="text-xl text-gray-600 transition-colors duration-200 hover:text-green-700"
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
