@@ -40,7 +40,11 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       neutral: "bg-gray-500 hover:bg-gray-600",
     };
 
-    return `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
+    const disabledClasses = "opacity-50 cursor-not-allowed hover:bg-none";
+
+    return `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${
+      disabled ? disabledClasses : ""
+    } ${className}`;
   };
 
   return (

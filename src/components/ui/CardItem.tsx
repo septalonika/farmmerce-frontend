@@ -24,6 +24,7 @@ export type BaseItem = {
   stock?: number;
   rating?: number;
   duration?: string;
+  unit?: string;
 };
 
 type CardItemProps<T extends BaseItem> = {
@@ -32,6 +33,8 @@ type CardItemProps<T extends BaseItem> = {
   buyNowLabel?: string;
   onAddToCartClick?: (data: T) => void;
   onBuyNowClick?: (data: T) => void;
+  buyNowIcon?: React.ReactNode;
+  addToCartIcon?: React.ReactNode;
 };
 
 export const CardItem = <T extends BaseItem>({
@@ -40,6 +43,8 @@ export const CardItem = <T extends BaseItem>({
   buyNowLabel,
   onAddToCartClick,
   onBuyNowClick,
+  buyNowIcon,
+  addToCartIcon,
 }: CardItemProps<T>) => {
   return (
     <Card className="w-full max-w-xs overflow-hidden rounded-3xl border bg-white shadow-md transition-all">
@@ -90,7 +95,9 @@ export const CardItem = <T extends BaseItem>({
                         : "bg-red-500"
                   }`}
                 >
-                  {data.stock > 0 ? `Stok: ${data.stock}` : "Stok Habis"}
+                  {data.stock > 0
+                    ? `Stok: ${data.stock} ${data.unit}`
+                    : "Stok Habis"}
                 </Badge>
               )}
             </div>
@@ -117,25 +124,27 @@ export const CardItem = <T extends BaseItem>({
 
       {/* Action Buttons */}
       {(onAddToCartClick || onBuyNowClick) && (
-        <CardFooter className="flex w-full gap-2 p-4 pt-0">
+        <CardFooter className="flex w-full justify-end gap-2 p-4 pt-0">
           {addToCartLabel && onAddToCartClick && (
             <CustomButton
               type="button"
               onClick={() => onAddToCartClick(data)}
               label={addToCartLabel}
+              icon={addToCartIcon}
               variant="primary"
               size="small"
-              className="flex-1"
+              className="flex items-center"
             />
           )}
           {buyNowLabel && onBuyNowClick && (
             <CustomButton
               type="button"
               onClick={() => onBuyNowClick(data)}
+              icon={buyNowIcon}
               label={buyNowLabel}
               variant="secondary"
               size="small"
-              className="flex-1"
+              className="flex items-center"
             />
           )}
         </CardFooter>

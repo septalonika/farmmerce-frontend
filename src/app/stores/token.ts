@@ -1,5 +1,5 @@
 import { atom } from "nanostores";
-import { useAuthFetch } from "@/app/composables/useCustomFetch";
+import { authFetch, useAuthFetch } from "@/app/composables/CustomFetch";
 
 type Token = {
   token?: string;
@@ -99,7 +99,7 @@ export const setToken = (data: ExchangeToken) => {
 export const login = async () => {
   set({ loading: true });
   try {
-    const response = await useAuthFetch<GenericResponse<LoginResponse>>({
+    const response = await authFetch<GenericResponse<LoginResponse>>({
       baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
       url: "/api/v1/auth/login",
       method: "post",

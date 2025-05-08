@@ -16,6 +16,9 @@ import { useRouter } from "next/navigation";
 import { setUser } from "@/app/stores/auth";
 import Hamburger from "@/components/ui/Hamburger";
 import SearchBar from "@/components/ui/SearchBar";
+import { $cartItems, $cartTotalItems } from "@/app/stores/cartStores";
+import { useStore } from "@nanostores/react";
+import CartModal from "@/components/popups/CartModal";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 // const jakartaSans = Plus_Jakarta_Sans({
@@ -24,6 +27,9 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Header = () => {
   const router = useRouter();
+  const totalItems = useStore($cartTotalItems);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const cartItems = $cartItems.get();
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
@@ -55,6 +61,10 @@ const Header = () => {
     router.replace("/login");
   };
 
+  const handleToggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
   return (
     <div className="absolute top-0 z-50 w-full">
       <AppBar position="static" sx={{ backgroundColor: "#1E2939" }}>
@@ -73,7 +83,7 @@ const Header = () => {
                 variant="h6"
                 noWrap
                 component="a"
-                href="#app-bar-with-responsive-menu"
+                href="/"
                 sx={{
                   mr: 2,
                   display: { xs: "none", md: "flex" },
@@ -96,16 +106,21 @@ const Header = () => {
                 <SearchBar />
               </div>
 
-              <div className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-[2px] border-[#404957]">
+              <div
+                className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-[2px] border-[#404957]"
+                onClick={handleToggleModal}
+              >
                 <Image
                   src="/ic_cart.svg"
                   width={28}
                   height={28}
                   alt="cart icon"
                 />
-                <div className="absolute -top-3 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
-                  2
-                </div>
+                {totalItems > 0 && (
+                  <div className="absolute -top-3 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                    {totalItems}
+                  </div>
+                )}
               </div>
 
               <div className="relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border-[2px] border-[#404957]">
@@ -161,6 +176,7 @@ const Header = () => {
           </Toolbar>
         </Container>
       </AppBar>
+      <CartModal isOpen={isModalOpen} onClose={handleToggleModal} />
     </div>
   );
 };

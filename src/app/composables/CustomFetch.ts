@@ -21,7 +21,7 @@ interface OptionsFetch {
   baseURL?: string;
   encodedBody?: { [key: string]: string };
 }
-export const useAuthFetch = async <T>(options: OptionsFetch): Promise<T> => {
+export const authFetch = async <T>(options: OptionsFetch): Promise<T> => {
   const {
     url,
     method,
