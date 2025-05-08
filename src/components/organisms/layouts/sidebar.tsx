@@ -61,7 +61,7 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }: SidebarProps) => {
         ]
       : []),
     {
-      href: "/services",
+      href: "/layanan-kami",
       label: "Layanan Kami",
       icon: <FiClipboard size={20} />, // Menyediakan layanan khusus
     },
